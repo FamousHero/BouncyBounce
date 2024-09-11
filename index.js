@@ -1,11 +1,6 @@
-// I AM NOT A P5 PROGRAMMER, I WILL NOT CONFORM!!!!!!!!!!!
+var sign = -1;
 
-// JS fucking suckssssssssssssss.
-// I have to make global variable for p5
-
-let drop_x = 100;
-let drop_y = 100;
-let sign = -1;
+var circles = [];
 function main(){
 
   const elem = document.createElement("div");
@@ -14,7 +9,6 @@ function main(){
 
   const width = 1920;
   const height = 1080;
-
 
   setup(width, height);
   
@@ -30,47 +24,101 @@ function setup(width, height) {
   background(247, 196, 10);
   
   const diameter = 100;
-  circleBuilder(width/2, height/2, diameter);
+  let start_x = 0;
+  let start_y = 100;
 
-  describe('A white circle with black outline in the middle of a gray canvas.');
+  while(start_x < width){
+    circles.push(new Circle(start_x, start_y, diameter));
+    
+    start_x += 150;
+    start_y -= 25;
+  }
+
+  describe('A project to see circles bounce.');
+
 }
   
 function draw(){
   
   background(247, 196, 10);
 
-  check_drop_x();
-  check_drop_y();
-  
-  circle(drop_x, drop_y, 50);
- 
-  drop_x += 10;
-  drop_y += 100 * sign;
+  circles.forEach((circle)=>{
+    check_drop_x(circle);
+    check_drop_y(circle);
+    circle.draw();
+
+    circle.move();
+  })
+
 } 
 
-function check_drop_x(){
-if(drop_x > width){
-    drop_x = 0;
+function check_drop_x(Circle){
+  if(Circle.x > width){
+    Circle.x = 0;
+    Circle.drop_speed_x -= 2;
+  }
+  if(Circle.drop_speed_y == 0){
+    Circle.drop_speed_x = 0;
   }
 }
 
-function check_drop_y(){
-  if(drop_y > height){
-    sign = -1;
+function check_drop_y(Circle){
+  if(Circle.y > height){
+    Circle.sign = -1;
+    if(Circle.drop_speed_y > 0){
+      Circle.drop_speed_y -= 5;
+    }
   }
-  else if(drop_y < 0){
-    sign = 1;
+  else if(Circle.y < 0){
+    Circle.sign = 1;
   }
 
+  console.log("X speed is " + Circle.drop_speed_y);
 }
-/**
- * @param {Number} pos_x
- * @param {Number} pos_y
- * @param {Number} radius
- */
-function circleBuilder(pos_x, pos_y, diameter){
-  circle(pos_x, pos_y, diameter);
+
+
+class Circle{
+    constructor(pos_x, pos_y, diameter){
+        this.x = pos_x;
+        this.y = pos_y;
+        this.d = diameter;
+        this.sign = 1;
+        this.drop_speed_y = 25;
+        this.drop_speed_x = 10;
+    }
+
+    /**
+     * 
+     * @param {Number} pos_x - set x to new position
+     * @param {Number} pos_y - set y to new position
+     */
+    moveTo(pos_x, pos_y, diameter){
+        this.x = pos_x;
+        this.y = pos_y;
+
+        this.d = diameter;
+    }
+    /**
+     * 
+     * @param {Number} offset_x - move x by a give offset
+     * @param {Number} offset_y - move y by a give offset 
+     */
+    move(){
+        this.x += this.drop_speed_x;
+        this.y += this.sign*this.drop_speed_y;
+    }
+
+    /**
+     * Create a circle shape to be drawn by p5
+     */
+    draw(){
+        circle(this.x, this.y, this.d);
+
+    }
+
+    
 }
+
 // not the best way to run function on load but 
 //feels comfortable due to C++ & python experience
 
