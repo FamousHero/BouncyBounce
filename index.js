@@ -92,8 +92,12 @@ class Circle{
         this.y = pos_y;
         this.d = diameter;
         this.sign = 1;
-        this.drop_speed_y = 0.01745240643;  // Should be in radians
+        let bound = this.y - (.5 * height) ;
+        bound = bound / (.25 * height);
+        this.current_rad = Math.asin(bound);  // Should be in radians
+        console.log(this.current_rad);
         this.drop_speed_x = 10;
+        this.drop_speed_y = 0.01745240643;
     }
 
     /**
@@ -113,8 +117,12 @@ class Circle{
      * @param {Number} offset_y - move y by a give offset 
      */
     move(){
-        this.x += this.drop_speed_x;
-        this.y  += Math.sin(this.drop_speed_y);
+        //this.x += this.drop_speed_x;
+        this.y  = .25*height * Math.sin(this.current_rad+ this.drop_speed_y) + .5 * height; // we want y b/w 1/4 * height and 3/4 * height
+        // c * sin(x) + b where c is max y and b is offset
+        // 
+        // for sin(x), we want it to be 10 deg MORE that it was
+        // so calculate current deg + 10 deg
         this.drop_speed_y += 0.01745240643;
     }
 
