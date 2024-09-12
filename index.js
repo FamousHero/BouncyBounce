@@ -25,13 +25,20 @@ function setup(width, height) {
   
   const diameter = 100;
   let start_x = 0;
-  let start_y = 100;
 
-  while(start_x < width){
-    circles.push(new Circle(start_x, start_y, diameter));
+  while(start_x < width){ // I'm p sure this is a sign wave
+    // c * Math.sin(x), period
+    // Math.sin(x) is bound between [-1, 1], so c = max bound you want 
+    // period ~ angle and angle ranges between [0,2*pi]
+    //
+    // period == time == x-axis
+    // amplitude == c * Math.sin(x) amplitude == y-axis
+    // frequency == time it takes for amplitude to go from [-1, 1]
+
+    circles.push(new Circle(start_x, height/4*Math.sin(start_x), diameter));
     
-    start_x += 150;
-    start_y -= 25;
+    start_x += 50; 
+
   }
 
   describe('A project to see circles bounce.');
@@ -55,7 +62,7 @@ function draw(){
 function check_drop_x(Circle){
   if(Circle.x > width){
     Circle.x = 0;
-    Circle.drop_speed_x -= 2;
+    //Circle.drop_speed_x -= 2;
   }
   if(Circle.drop_speed_y == 0){
     Circle.drop_speed_x = 0;
@@ -66,7 +73,7 @@ function check_drop_y(Circle){
   if(Circle.y > height){
     Circle.sign = -1;
     if(Circle.drop_speed_y > 0){
-      Circle.drop_speed_y -= 5;
+      //Circle.drop_speed_y -= 5;
     }
   }
   else if(Circle.y < 0){
@@ -104,7 +111,7 @@ class Circle{
      * @param {Number} offset_y - move y by a give offset 
      */
     move(){
-        this.x += this.drop_speed_x;
+        //this.x += this.drop_speed_x;
         this.y += this.sign*this.drop_speed_y;
     }
 
