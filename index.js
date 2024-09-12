@@ -95,39 +95,39 @@ class Circle{
         let bound = this.y - (.5 * height) ;
         bound = bound / (.25 * height);
         this.current_rad = Math.asin(bound);  // Should be in radians
-        console.log(this.current_rad);
         this.drop_speed_x = 10;
         this.drop_speed_y = 0.01745240643;
-    }
-
-    /**
-     * 
-     * @param {Number} pos_x - set x to new position
-     * @param {Number} pos_y - set y to new position
-     */
-    moveTo(pos_x, pos_y, diameter){
-        this.x = pos_x;
-        this.y = pos_y;
-
-        this.d = diameter;
-    }
-    /**
-     * 
-     * @param {Number} offset_x - move x by a give offset
-     * @param {Number} offset_y - move y by a give offset 
-     */
-    move(){
-        //this.x += this.drop_speed_x;
-        this.y  = .25*height * Math.sin(this.current_rad+ this.drop_speed_y) + .5 * height; // we want y b/w 1/4 * height and 3/4 * height
-        // c * sin(x) + b where c is max y and b is offset
-        // 
-        // for sin(x), we want it to be 10 deg MORE that it was
-        // so calculate current deg + 10 deg
-        this.drop_speed_y += 0.01745240643;
-    }
-
-    /**
-     * Create a circle shape to be drawn by p5
+      }
+      
+      /**
+       * 
+       * @param {Number} pos_x - set x to new position
+       * @param {Number} pos_y - set y to new position
+      */
+     moveTo(pos_x, pos_y, diameter){
+       this.x = pos_x;
+       this.y = pos_y;
+       
+       this.d = diameter;
+      }
+      /**
+       * 
+       * @param {Number} offset_x - move x by a give offset
+       * @param {Number} offset_y - move y by a give offset 
+      */
+     move(){
+       //this.x += this.drop_speed_x;
+       console.log(this.current_rad);
+       this.y  = .25*height * Math.sin(this.current_rad+ this.sign*this.drop_speed_y) + .5 * height; // we want y b/w 1/4 * height and 3/4 * height
+       // c * sin(x) + b where c is max y and b is offset
+       // 
+       // for sin(x), we want it to be 10 deg MORE that it was
+       // so calculate current deg + 10 deg
+       this.current_rad += 0.01745240643;
+      }
+      
+      /**
+       * Create a circle shape to be drawn by p5
      */
     draw(){
         circle(this.x, this.y, this.d);
