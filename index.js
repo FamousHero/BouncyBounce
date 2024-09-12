@@ -31,13 +31,15 @@ function setup(width, height) {
     // Math.sin(x) is bound between [-1, 1], so c = max bound you want 
     // period ~ angle and angle ranges between [0,2*pi]
     //
+    // x is degrees in radians
+    //
     // period == time == x-axis
     // amplitude == c * Math.sin(x) amplitude == y-axis
     // frequency == time it takes for amplitude to go from [-1, 1]
 
-    circles.push(new Circle(start_x, height/4*Math.sin(start_x), diameter));
+    circles.push(new Circle(start_x, height/4*Math.sin(start_x/width * 2*Math.PI) + height/2, diameter));
     
-    start_x += 50; 
+    start_x += 20; 
 
   }
 
@@ -70,13 +72,13 @@ function check_drop_x(Circle){
 }
 
 function check_drop_y(Circle){
-  if(Circle.y > height){
+  if(Circle.y > height - Circle.drop_speed_y){
     Circle.sign = -1;
     if(Circle.drop_speed_y > 0){
       //Circle.drop_speed_y -= 5;
     }
   }
-  else if(Circle.y < 0){
+  else if(Circle.y < Circle.drop_speed_y){
     Circle.sign = 1;
   }
 
@@ -90,7 +92,7 @@ class Circle{
         this.y = pos_y;
         this.d = diameter;
         this.sign = 1;
-        this.drop_speed_y = 5;
+        this.drop_speed_y = 0.01745240643;  // Should be in radians
         this.drop_speed_x = 10;
     }
 
@@ -111,8 +113,9 @@ class Circle{
      * @param {Number} offset_y - move y by a give offset 
      */
     move(){
-        //this.x += this.drop_speed_x;
-        this.y += this.sign*this.drop_speed_y;
+        // this.x += this.drop_speed_x;
+        this.y  += Math.sin(this.drop_speed_y);
+        this.drop_speed_y += 0.01745240643;
     }
 
     /**
