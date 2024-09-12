@@ -90,7 +90,7 @@ class Circle{
         this.y = pos_y;
         this.d = diameter;
         this.sign = 1;
-        this.drop_speed_y = 25;
+        this.drop_speed_y = 5;
         this.drop_speed_x = 10;
     }
 
