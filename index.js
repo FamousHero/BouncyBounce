@@ -113,7 +113,7 @@ class Circle{
      * @param {Number} offset_y - move y by a give offset 
      */
     move(){
-        // this.x += this.drop_speed_x;
+        this.x += this.drop_speed_x;
         this.y  += Math.sin(this.drop_speed_y);
         this.drop_speed_y += 0.01745240643;
     }
